@@ -13,10 +13,12 @@ import java.util.List;
 public class VoteEventListener implements Listener
 {
     Heliossvote plugin;
+    PteroUserAPI api;
 
     public VoteEventListener(Heliossvote instance)
     {
         plugin = instance;
+        api = new PteroUserAPI("https://panel.helioss.co", "tjUJDkfA0pSZ4U6F1gworR89Wn62aIprBWpi2bLi630MKWkG");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -36,10 +38,10 @@ public class VoteEventListener implements Listener
         String msgCommand = plugin.getCustomConfig().getString("msgcommand");
         String replacedMsgCommand = msgCommand.replace("%player", vote.getUsername());
 
+        //test
+
         for(String id : ids)
         {
-            PteroUserAPI api = new PteroUserAPI("https://panel.helioss.co", "tjUJDkfA0pSZ4U6F1gworR89Wn62aIprBWpi2bLi630MKWkG");
-
             UserServer server = api.getServersController().getServer(id);
             server.sendCommand(replacedMsgCommand);
             server.sendCommand(replacedCommandGive);
