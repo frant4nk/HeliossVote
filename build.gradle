@@ -21,11 +21,16 @@ repositories {
     maven {
         url = 'https://dl.bintray.com/ichbinjoe/public/'
     }
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:19.0.0'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     compileOnly "com.vexsoftware:nuvotifier-universal:2.6.0"
+    implementation 'com.github.stanjg:Ptero4J:master-SNAPSHOT'
 }
 
 processResources {
