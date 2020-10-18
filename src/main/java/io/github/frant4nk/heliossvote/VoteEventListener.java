@@ -18,7 +18,7 @@ public class VoteEventListener implements Listener
     public VoteEventListener(Heliossvote instance)
     {
         plugin = instance;
-        api = new PteroUserAPI("https://panel.helioss.co", "tjUJDkfA0pSZ4U6F1gworR89Wn62aIprBWpi2bLi630MKWkG");
+        api = new PteroUserAPI("https://panel.helioss.co", "");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
