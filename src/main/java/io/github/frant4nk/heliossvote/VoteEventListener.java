@@ -1,7 +1,6 @@
 package io.github.frant4nk.heliossvote;
 
 import com.stanjg.ptero4j.PteroUserAPI;
-import com.stanjg.ptero4j.entities.panel.admin.Server;
 import com.stanjg.ptero4j.entities.panel.user.UserServer;
 import com.vexsoftware.votifier.model.Vote;
 import org.bukkit.event.EventHandler;
