@@ -1,24 +1,27 @@
 package io.github.frant4nk.heliossvote;
 
-import com.stanjg.ptero4j.PteroUserAPI;
-import com.stanjg.ptero4j.entities.panel.user.UserServer;
 import com.vexsoftware.votifier.model.Vote;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class VoteEventListener implements Listener
 {
     Heliossvote plugin;
-    PteroUserAPI api;
 
     public VoteEventListener(Heliossvote instance)
     {
         plugin = instance;
-        api = new PteroUserAPI("https://panel.helioss.co", "");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -38,16 +41,43 @@ public class VoteEventListener implements Listener
         String msgCommand = plugin.getCustomConfig().getString("msgcommand");
         String replacedMsgCommand = msgCommand.replace("%player", vote.getUsername());
 
-        //test
-
         for(String id : ids)
         {
-            UserServer server = api.getServersController().getServer(id);
-            server.sendCommand(replacedMsgCommand);
-            server.sendCommand(replacedCommandGive);
+            composeRequest(id, replacedMsgCommand);
+            composeRequest(id, replacedCommandGive);
+        }
+    }
+
+    private void composeRequest(String uuid, String command)
+    {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("https://panel.helioss.co/api/client/servers/" + uuid + "/command");
+
+        String json = "{\"command\": \"" + command + "\"}";
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-        //UserServer server = api.getServersController().getServer("a9013ecb-244f-4933-8197-99251b79728e");
-        //server.sendCommand("say " + vote.getUsername() + " voted!!");
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setHeader("Connection", "close");
+        httpPost.setHeader("Authorization", "Bearer ");
+        httpPost.setEntity(entity);
+
+        CloseableHttpResponse response = null;
+        try {
+            response = client.execute(httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(response);
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
