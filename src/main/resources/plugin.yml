@@ -1,6 +1,6 @@
 name: Heliossvote
 version: @version@
 main: io.github.frant4nk.heliossvote.Heliossvote
-authors: [ FranT4NK, Sardine123 ]
+authors: FranT4NK
 description: Helioss vote system
 depends: [NuVotifier]

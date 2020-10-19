@@ -35,16 +35,15 @@ public class VoteEventListener implements Listener
     private void voteTrigger(@org.jetbrains.annotations.NotNull Vote vote)
     {
         List<String> ids = plugin.getCustomConfig().getStringList("ids");
-        String command = plugin.getCustomConfig().getString("command");
-        String replacedCommandGive = command.replace("%player", vote.getUsername());
-
-        String msgCommand = plugin.getCustomConfig().getString("msgcommand");
-        String replacedMsgCommand = msgCommand.replace("%player", vote.getUsername());
+        List<String> commands = plugin.getCustomConfig().getStringList("commands");
 
         for(String id : ids)
         {
-            composeRequest(id, replacedMsgCommand);
-            composeRequest(id, replacedCommandGive);
+            for(String command : commands)
+            {
+                String replacedCommand = command.replace("%player", vote.getUsername()).replace("%web", vote.getServiceName());
+                composeRequest(id, replacedCommand);
+            }
         }
     }
 
@@ -64,7 +63,7 @@ public class VoteEventListener implements Listener
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json");
         httpPost.setHeader("Connection", "close");
-        httpPost.setHeader("Authorization", "Bearer ");
+        httpPost.setHeader("Authorization", "Bearer " + plugin.getCustomConfig().getString("token"));
         httpPost.setEntity(entity);
 
         CloseableHttpResponse response = null;

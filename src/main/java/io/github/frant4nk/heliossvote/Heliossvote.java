@@ -9,7 +9,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public final class Heliossvote extends JavaPlugin {
+public final class Heliossvote extends JavaPlugin
+{
 
     private File customConfigFile;
     private FileConfiguration customConfig;
@@ -17,6 +18,7 @@ public final class Heliossvote extends JavaPlugin {
     @Override
     public void onEnable()
     {
+        getLogger().info("HeliossVote has been enabled");
         createCustomConfig();
         getServer().getPluginManager().registerEvents(new VoteEventListener(this), this);
     }
