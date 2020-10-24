@@ -2,6 +2,7 @@ package io.github.frant4nk.heliossvote;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -36,7 +37,6 @@ public final class Heliossvote extends JavaPlugin
 
     private void createCustomConfig()
     {
-
         customConfigFile = new File(getDataFolder(), "/voteConfigFile.yml");
         if(!customConfigFile.exists())
         {
