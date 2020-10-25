@@ -13,11 +13,22 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class VoteEventListener implements Listener
 {
     Heliossvote plugin;
+    Connection con;
+
+    String host = "54.36.165.164";
+    String port = "3306";
+    String database = "s174_votes";
+    String user = "u174_TIa0d5swlX";
+    String password = "d=A3iVcZLvnd6=D8bT0hdTaG";
 
     public VoteEventListener(Heliossvote instance)
     {
@@ -44,6 +55,16 @@ public class VoteEventListener implements Listener
                 String replacedCommand = command.replace("%player", vote.getUsername()).replace("%web", vote.getServiceName());
                 composeRequest(id, replacedCommand);
             }
+        }
+
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO votes (username, dayvotes, totalvotes) VALUES (\"" + vote.getUsername() + "\", 1, 1) ON DUPLICATE KEY UPDATE dayvotes = dayvotes + 1, totalvotes = totalvotes + 1;");
+            ps.executeUpdate();
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
